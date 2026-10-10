@@ -14,6 +14,7 @@ import { KnowledgeBaseView } from './components/KnowledgeBaseView';
 import { TeamDirectoryView } from './components/TeamDirectoryView';
 import { CustomerPortalView } from './components/CustomerPortalView';
 import { PhpProjectView } from './components/PhpProjectView';
+import { AiExtractorView } from './components/AiExtractorView';
 import { TicketDetailModal } from './components/TicketDetailModal';
 import { CreateTicketModal } from './components/CreateTicketModal';
 
@@ -31,6 +32,7 @@ const AppContent: React.FC = () => {
         {/* Dynamic view rendering */}
         {viewMode === 'kanban' && <KanbanBoard />}
         {viewMode === 'list' && <TicketList />}
+        {viewMode === 'ai_extractor' && <AiExtractorView />}
         {viewMode === 'analytics' && <AnalyticsView />}
         {viewMode === 'php' && <PhpProjectView />}
         {viewMode === 'knowledge' && <KnowledgeBaseView />}

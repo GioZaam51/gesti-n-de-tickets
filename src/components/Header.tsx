@@ -15,6 +15,7 @@ import {
   Layers,
   ShieldAlert,
   Code2,
+  Sparkles,
 } from 'lucide-react';
 import { useTickets } from '../context/TicketContext';
 import { USER_PERSONAS } from '../data/mockData';
@@ -50,6 +51,12 @@ export const Header: React.FC = () => {
       label: 'Lista de Tickets',
       icon: <ListFilter className="w-4 h-4" />,
       badge: stats.total,
+    },
+    {
+      id: 'ai_extractor',
+      label: 'Extractor IA (PDF/PPT)',
+      icon: <Sparkles className="w-4 h-4 text-indigo-400" />,
+      badge: 'IA Gemini',
     },
     {
       id: 'analytics',

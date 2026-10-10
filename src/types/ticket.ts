@@ -105,7 +105,7 @@ export interface CannedResponse {
   content: string;
 }
 
-export type ViewMode = 'kanban' | 'list' | 'analytics' | 'knowledge' | 'team' | 'portal' | 'php';
+export type ViewMode = 'kanban' | 'list' | 'analytics' | 'knowledge' | 'team' | 'portal' | 'php' | 'ai_extractor';
 
 export interface UserPersona {
   id: string;

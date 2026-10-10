@@ -550,6 +550,58 @@ try {
 }`,
     },
     {
+      name: 'api/ai_extractor.php',
+      path: 'api/ai_extractor.php',
+      language: 'php',
+      category: 'Módulo IA (Gemini API)',
+      content: `<?php
+/**
+ * TicketDesk Pro - Módulo de Extracción IA en PHP
+ * Conexión a Gemini (gemini-3.8-flash) para PDF y PowerPoint
+ */
+
+header('Content-Type: application/json; charset=utf-8');
+header('Access-Control-Allow-Origin: *');
+
+$input = json_decode(file_get_contents('php://input'), true) ?: $_POST;
+$fileName = $input['fileName'] ?? 'documento.pdf';
+$textContent = $input['textContent'] ?? '';
+$apiKey = getenv('GEMINI_API_KEY') ?: '';
+
+// Llamada cURL a Gemini REST endpoint si existe API key
+if (!empty($apiKey)) {
+    $url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=" . urlencode($apiKey);
+    $payload = [
+        'contents' => [['parts' => [['text' => "Analiza el documento {$fileName} y extrae datos para ticket: " . $textContent]]]],
+        'generationConfig' => ['responseMimeType' => 'application/json', 'temperature' => 0.2]
+    ];
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true);
+    curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($payload));
+    $res = curl_exec($ch);
+    curl_close($ch);
+    echo $res;
+} else {
+    // Modo simulado offline
+    echo json_encode([
+        'success' => true,
+        'data' => [
+            'title' => "Incidencia Extraída de {$fileName}",
+            'summary' => "Se detectaron fallos críticos y requerimientos de soporte en el documento.",
+            'category' => 'network',
+            'priority' => 'urgent',
+            'department' => 'Infraestructura',
+            'slaSuggestedHours' => 4,
+            'requesterName' => 'Auditoría TI PHP',
+            'affectedSystems' => ['Servidor Web', 'VPN Gateway', 'Base de Datos'],
+            'actionItems' => ['Verificar conectividad', 'Aplicar parches', 'Notificar al usuario']
+        ]
+    ], JSON_UNESCAPED_UNICODE);
+}`,
+    },
+    {
       name: 'database.sql',
       path: 'database.sql',
       language: 'sql',
